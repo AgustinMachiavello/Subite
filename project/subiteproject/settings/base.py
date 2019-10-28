@@ -25,12 +25,11 @@ SECRET_KEY = 'nglrm5(c6m+c)(c=dk(#$f+p^3akj3)m10ezxq-h1d75p6jq_w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*',]
 
 
 # Application definition
-
-INSTALLED_APPS = [
+DJANGO_APPS = [    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +37,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+THIRD_PARTY_APPS = [
+    'rest_framework',  # Rest framework
+	'rest_framework.authtoken',
+	#'rest_auth',  # Rest_auth: for login, registration, logout, etc.
+    #'rest_auth.registration',
+]
+
+LOCAL_APPS = [
+    'subiteproject',
+    'subiteproject.apps.accounts',
+    'subiteproject.apps.web',
+    'subiteproject.apps.maps',
+]
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -54,7 +69,7 @@ ROOT_URLCONF = 'subiteproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR + "/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,3 +133,26 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT  =   os.path.join(BASE_DIR, 'staticfiles')
+
+# Site id for multiple domains
+SITE_ID = 1
+
+STATICFILES_FINDERS = (
+	'django.contrib.staticfiles.finders.FileSystemFinder',
+	'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
+# Extra lookup directories for collectstatic to find static files
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'assets'),
+)
+
+REST_FRAMEWORK = {
+	'DEFAULT_AUTHENTICATION_CLASSES': (
+		'rest_framework.authentication.TokenAuthentication',
+	)
+}
+
+# User Model
+AUTH_USER_MODEL = 'accounts.User'
