@@ -1,13 +1,20 @@
 // Subite main javascript
 
 const opts = {crossDomain: true};
-var login_form = document.getElementById('login-form');
 
 $('#signin-form').submit(function(e){
     e.preventDefault();
     var email = document.getElementById("inputEmail").value;
     var password = document.getElementById("inputPassword").value;
     login(email, password);
+});
+
+$('#new-route-form').submit(function(e){
+  e.preventDefault();
+  var from = document.getElementById("from").value;
+  var to = document.getElementById("to").value;
+  get_coordinates(from)
+  debugger;
 });
 
 function getCookie(name) {
@@ -26,7 +33,7 @@ function getCookie(name) {
     return cookieValue;
 }
 var csrftoken = getCookie('csrftoken');
-
+var mapbox_token = 'pk.eyJ1IjoiYWd1c3Rpbm1hY2hpYXZlbGxvIiwiYSI6ImNrMjNuZGkwYzAwZHQzZHMxM2xxbHJwbmoifQ.WZfyYnPjnCQJ6K4jFtXTJw'
 function login(email, password) {
   submitOK = "true";
   var at = email.indexOf("@");
@@ -41,7 +48,6 @@ function login(email, password) {
     var post_url = `${domain}/api/users/signin/`;
     var post_data = {'username': email, 'password': password, 'csrfmiddlewaretoken': csrftoken}
     var post_successful_url = `${domain}/index.html`;
-    console.log(post_url)
     $.post(
       post_url,
       post_data,
@@ -51,4 +57,21 @@ function login(email, password) {
         alert("Not valid credentials");
       });
   }
+}
+
+function get_coordinates(direction){
+  var formated_direction = direction.split(' ').join('%20')
+  formated_direction.split(' ').join('%2C')
+  debugger;
+  var post_data = {}
+  var post_url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${formated_direction}.json?limit1&access_token=${mapbox_token}`
+  var post_successful_url = ''
+  $.get(
+    post_url,
+    post_data,
+    function(data) {
+      console.log(data)
+    }).fail(function() {
+      alert("Algo salió mal");
+    });
 }
