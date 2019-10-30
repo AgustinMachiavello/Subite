@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v3.8.5">
-    <title>Checkout example · Bootstrap</title>
+    <title>Nueva ruta</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/checkout/">
 
@@ -48,21 +48,22 @@
         {%csrf_token%}
         <div class="row">
           <div class="col-md-6 mb-3">
-            <label for="firstName">First name</label>
-            <input type="text" class="form-control" id="from" placeholder="" required="">
+            <label for="firstName">Desde</label>
+            <input type="text" class="form-control" id="from" placeholder="Ej: artigas 123, salto, uruguay" required="">
             <div class="invalid-feedback">
               Valid first name is required.
             </div>
           </div>
           <div class="col-md-6 mb-3">
-            <label for="lastName">Last name</label>
-            <input type="text" class="form-control" id="to" placeholder="" required="">
+            <label for="lastName">Hasta</label>
+            <input type="text" class="form-control" id="to" placeholder="Ej: artigas 123, salto, uruguay" required="">
             <div class="invalid-feedback">
               Valid last name is required.
             </div>
           </div>
         </div>
         <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" onclick="visualize_route()" type="button">Visualizar ruta</button>
         <button class="btn btn-primary btn-lg btn-block" type="submit">Siguiente</button>
       </form>
     </div>

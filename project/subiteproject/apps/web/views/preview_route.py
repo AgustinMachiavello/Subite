@@ -8,8 +8,8 @@ from django.shortcuts import render
 from ..utils import get_static_url
 
 
-class NewRouteConfirmTemplateView(TemplateView):
-    template_name = 'new_route_confirm.html'
+class PreviewRouteTemplateView(TemplateView):
+    template_name = 'preview_route.html'
 
     def get(self, request, *args, **kwargs):
         args = {'STATIC_URL': get_static_url()}

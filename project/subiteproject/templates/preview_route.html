@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<title>Vista previa</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
+<style>
+body { margin:0; padding:0; }
+#map { position:absolute; top:0; bottom:0; width:100%; }
+</style>
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<!-- Subite main js -->
+<script src="{{STATIC_URL}}js/subite.js"></script>
+</head>
+<body>
+ 
+<div id='map'></div>
+
+<script>
+var from = getUrlVars()["from"]
+var to = getUrlVars()["to"]
+var unformated_from = from.split('%20').join(' ')
+unformated_from = unformated_from.split('%2C').join(',')
+var unformated_to = to.split('%20').join(' ')
+unformated_to = unformated_to.split('%2C').join(',')
+var coo_from = get_coordinates(unformated_from)
+var coo_to = get_coordinates(unformated_to)
+//IMPORTANT openroute MAP USES FIRST LONGUITUDE AND THEN LATITUDE
+coo_from_lat = parseFloat(coo_from[0]["lat"])
+coo_from_lon = parseFloat(coo_from[0]["lon"])
+coo_to_lat = parseFloat(coo_to[0]["lat"])
+coo_to_lon = parseFloat(coo_to[0]["lon"])
+var center_array = [coo_from_lon, coo_from_lat]
+var directions = get_route(coo_from_lat, coo_from_lon, coo_to_lat, coo_to_lon)
+console.log("DIRECTIONS:", directions)
+directions = directions["features"][0]["geometry"]["coordinates"]
+var directions_array = [];
+for(i in directions){
+    var direct_lon = parseFloat(directions[i][0])
+    var direct_lat = parseFloat(directions[i][1])
+    directions_array.push([direct_lon, direct_lat])
+}
+visualize_map(center_array, directions_array)
+</script>
+</body>
+</html>
