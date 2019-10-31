@@ -34,7 +34,6 @@ coo_to_lat = parseFloat(coo_to[0]["lat"])
 coo_to_lon = parseFloat(coo_to[0]["lon"])
 var center_array = [coo_from_lon, coo_from_lat]
 var directions = get_route(coo_from_lat, coo_from_lon, coo_to_lat, coo_to_lon)
-console.log("DIRECTIONS:", directions)
 directions = directions["features"][0]["geometry"]["coordinates"]
 var directions_array = [];
 for(i in directions){
@@ -42,7 +41,8 @@ for(i in directions){
     var direct_lat = parseFloat(directions[i][1])
     directions_array.push([direct_lon, direct_lat])
 }
-visualize_map(center_array, directions_array)
+console.log(directions_array)
+visualize_map(center_array, directions_array, null)
 </script>
 </body>
 </html>

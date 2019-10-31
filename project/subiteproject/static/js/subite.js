@@ -16,7 +16,12 @@ $('#new-route-form').submit(function(e){
   e.preventDefault();
   var from = document.getElementById("from").value;
   var to = document.getElementById("to").value;
-  //send to main page wher the user can visulize route made by drivers
+  var formated_from = from.split(' ').join('%20')
+  formated_from = formated_from.split(',').join('%2C')
+  var formated_to = to.split(' ').join('%20')
+  formated_to = formated_to.split(',').join('%2C')
+  var domain = window.location.origin;
+  window.location.href = `${domain}/select_route/?from=${formated_from}&to=${formated_to}`;
 });
 
 function getCookie(name) {
@@ -104,7 +109,7 @@ function visualize_route(){
 
 function get_route(coo_from_lat, coo_from_lon, coo_to_lat, coo_to_lon){
   // NOT VALID FOR URUGUAY var get_url = `https://api.mapbox.com/directions/v5/mapbox/walking/${coo_from_lon},${coo_from_lat};${coo_to_lon},${coo_to_lat}?access_token=${mapbox_token}`
-  var get_url = `https://api.openrouteservice.org/v2/directions/foot-walking?api_key=${openroute_token}&start=${coo_from_lon},${coo_from_lat}&end=${coo_to_lon},${coo_to_lat}`
+  var get_url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${openroute_token}&start=${coo_from_lon},${coo_from_lat}&end=${coo_to_lon},${coo_to_lat}`
   var get_data = {}
   var output = null
   console.log(get_url)
@@ -124,7 +129,7 @@ function get_route(coo_from_lat, coo_from_lon, coo_to_lat, coo_to_lon){
   return output
 }
 
-function visualize_map(center_array, coordinates_array){
+function visualize_map(center_array, coordinates_array, icon_array){
 mapboxgl.accessToken = 'pk.eyJ1IjoiYWd1c3Rpbm1hY2hpYXZlbGxvIiwiYSI6ImNrMjNuZGkwYzAwZHQzZHMxM2xxbHJwbmoifQ.WZfyYnPjnCQJ6K4jFtXTJw';
 var map = new mapboxgl.Map({
 container: 'map',
@@ -134,7 +139,34 @@ zoom: 15
 });
  
 map.on('load', function () {
- 
+  if (icon_array != null){
+    map.loadImage('http://cdn.onlinewebfonts.com/svg/img_527461.png', 
+    function(error, image){
+      if (error) throw error;
+      map.addImage('point', image);
+      map.addLayer({
+        "id": "points",
+        "type": "symbol",
+        "source": {
+        "type": "geojson",
+        "data": {
+        "type": "FeatureCollection",
+        "features": [{
+        "type": "Feature",
+        "geometry": {
+        "type": "Point",
+        "coordinates": icon_array,
+        }
+        }]
+        }
+        },"layout": {
+          "icon-image": "point",
+          "icon-size": 0.03
+          }
+          });
+    })
+  }
+
 map.addLayer({
 "id": "route",
 "type": "line",
