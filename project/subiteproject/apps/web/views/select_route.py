@@ -20,6 +20,7 @@ class SelectRouteTemplateView(TemplateView):
     def get(self, request, *args, **kwargs):
         from_name = request.GET.get('from', None)
         to_name = request.GET.get('to', None)
+        diff = float(request.GET.get('diff', 0.006)) # defualt to 300 meters
         from_formated = from_name.replace(' ', '%20')
         from_formated = from_formated.replace(',', '%2C')
         to_formated = to_name.replace(' ', '%20')
@@ -30,7 +31,6 @@ class SelectRouteTemplateView(TemplateView):
         data_to = coo_to.json() 
         end_point_to = [float(data_to[0]["lat"]), float(data_to[0]["lon"])]
         print("END POINT:", end_point_to)
-        diff = 0.1
         routes = Route.objects.filter(
             end_point_lat__lte=(end_point_to[0]+diff),
             end_point_lat__gte=(end_point_to[0]-diff),

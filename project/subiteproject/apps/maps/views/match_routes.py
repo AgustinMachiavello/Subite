@@ -26,4 +26,5 @@ def match_routes(user_array, driver_array, max_difference):
 
 user_array = unformat_coordinates(user)
 chofer_array = unformat_coordinates(chofer)
-print(match_routes(user_array, chofer_array, 0.1))
+#print(match_routes(user_array, chofer_array, 0.1))
+"""A difference of 0.006 is half a cuadra"""

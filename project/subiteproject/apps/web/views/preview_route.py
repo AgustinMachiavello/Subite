@@ -14,3 +14,11 @@ class PreviewRouteTemplateView(TemplateView):
     def get(self, request, *args, **kwargs):
         args = {'STATIC_URL': get_static_url()}
         return render(request, self.template_name, args)
+
+
+class ReversePreviewRouteTemplateView(TemplateView):
+    template_name = 'preview_route.html'
+
+    def get(self, request, *args, **kwargs):
+        args = {'STATIC_URL': get_static_url()}
+        return render(request, self.template_name, args)

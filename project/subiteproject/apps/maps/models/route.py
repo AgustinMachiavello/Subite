@@ -12,7 +12,12 @@ class Route(models.Model):
     end_point_lon = models.FloatField(null=False, default=0)
 
     def __str__(self):
-        return "{0} -> {1}".format(self.start_point_lat, self.start_point_lon)
+        return "(lat,lon) ({0},{1}) to ({2}, {3})".format(
+            self.start_point_lat, 
+            self.start_point_lon,
+            self.end_point_lat,
+            self.end_point_lon,
+            )
 
 class Point(models.Model):
     route = models.ForeignKey('maps.Route', null=True, on_delete=models.CASCADE)
@@ -20,4 +25,4 @@ class Point(models.Model):
     lon = models.FloatField(null=False, default=0)
 
     def __str__(self):
-        return "{0} -> {1}".format(self.lat, self.lon)
+        return "({0}, {1})".format(self.lat, self.lon)

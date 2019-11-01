@@ -21,7 +21,7 @@ $('#new-route-form').submit(function(e){
   var formated_to = to.split(' ').join('%20')
   formated_to = formated_to.split(',').join('%2C')
   var domain = window.location.origin;
-  window.location.href = `${domain}/select_route/?from=${formated_from}&to=${formated_to}`;
+  window.location.href = `${domain}/select_route/?from=${formated_from}&to=${formated_to}&diff=0.006`;
 });
 
 function getCookie(name) {
@@ -84,6 +84,22 @@ function get_coordinates(direction){
   return output
 }
 
+function get_names(lat, lon){
+  var post_url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
+  var output = null
+  $.ajax({
+    type: 'POST',
+    url: post_url,
+    data: {},
+    success: function(result){
+      output = result
+    },
+    dataType: 'json',
+    async:false
+  });
+  return output
+}
+
 function getUrlVars() {
   // Gets called like this: var fType = getUrlVars()["type"];
   var vars = {};
@@ -92,6 +108,19 @@ function getUrlVars() {
     vars[key] = value;
   });
   return vars;
+}
+
+function visualize_route_reverse(coo_start, coo_end){
+  var from = get_names(coo_start[0], coo_start[1])["display_name"]
+  var to = get_names(coo_end[0], coo_end[1])["display_name"]
+  var formated_from = from.split(' ').join('%20')
+  formated_from = formated_from.split(',').join('%2C')
+  var formated_to = to.split(' ').join('%20')
+  formated_to = formated_to.split(',').join('%2C')
+  var domain = window.location.origin;
+  var open_url = `${domain}/preview_route?from=${formated_from}&to=${formated_to}`;
+  console.log(open_url)
+  window.open(open_url, '_blank');
 }
 
 function visualize_route(){
@@ -137,9 +166,10 @@ style: 'mapbox://styles/mapbox/streets-v11',
 center: center_array,
 zoom: 15
 });
- 
+debugger;
 map.on('load', function () {
   if (icon_array != null){
+    debugger;
     map.loadImage('http://cdn.onlinewebfonts.com/svg/img_527461.png', 
     function(error, image){
       if (error) throw error;
@@ -166,29 +196,29 @@ map.on('load', function () {
           });
     })
   }
-
-map.addLayer({
-"id": "route",
-"type": "line",
-"source": {
-"type": "geojson",
-"data": {
-"type": "Feature",
-"properties": {},
-"geometry": {
-"type": "LineString",
-"coordinates": coordinates_array,
-}
-}
-},
-"layout": {
-"line-join": "round",
-"line-cap": "round"
-},
-"paint": {
-"line-color": "#888",
-"line-width": 8
-}
-});
-});
+  debugger;
+  map.addLayer({
+  "id": "route",
+  "type": "line",
+  "source": {
+  "type": "geojson",
+  "data": {
+  "type": "Feature",
+  "properties": {},
+  "geometry": {
+  "type": "LineString",
+  "coordinates": coordinates_array,
+  }
+  }
+  },
+  "layout": {
+  "line-join": "round",
+  "line-cap": "round"
+  },
+  "paint": {
+  "line-color": "#888",
+  "line-width": 8
+  }
+  });
+  });
 }
