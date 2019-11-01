@@ -96,7 +96,7 @@ function add_route_layer(map, id, coordiantes, color){
 }
 
 function add_icon_layer(map, id, coordinates){
-  map.loadImage('http://cdn.onlinewebfonts.com/svg/img_527461.png', 
+  map.loadImage('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Target_Corporation_logo_%28vector%29.svg/300px-Target_Corporation_logo_%28vector%29.svg.png', 
   function(error, image){
     if (error) throw error;
     map.addImage(id.toString(), image);
@@ -118,7 +118,7 @@ function add_icon_layer(map, id, coordinates){
       },"layout": {
         "visibility": 'visible',
         "icon-image": id.toString(),
-        "icon-size": 0.03
+        "icon-size": 0.1
       }
     });
     })
@@ -138,6 +138,7 @@ var x = 0
 var color = 888  // grey
 map.on('load', function () {
   for (i in icons_coordinates){
+    debugger;
     console.log("x:", x)
     add_icon_layer(map, x, icons_coordinates[i])
     x += 1

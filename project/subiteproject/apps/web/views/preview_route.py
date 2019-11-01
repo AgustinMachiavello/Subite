@@ -53,7 +53,7 @@ class PreviewRouteTemplateView(TemplateView):
             )
             route_coordinates.append(coo)
         if len(route_addresses) >= 2:
-            icons_coordinates = self.request.GET.get('icons', [route_coordinates[0][0]])
+            icons_coordinates = match_routes(route_coordinates[0], route_coordinates[1], first_only=False)
         else:  
             icons_coordinates = self.request.GET.get('icons', [])
         center_coordinates = self.request.GET.get('center', route_coordinates[0][0])
@@ -63,4 +63,5 @@ class PreviewRouteTemplateView(TemplateView):
             'route_coordinates': route_coordinates,
             'icons_coordinates': icons_coordinates,
             }
+        print("ICONS:", icons_coordinates)
         return render(request, self.template_name, args)

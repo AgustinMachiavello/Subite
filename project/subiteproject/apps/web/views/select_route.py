@@ -50,7 +50,7 @@ class SelectRouteTemplateView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         user_route_address = self.get_route_addresses()
-        diff = float(request.GET.get('diff', 0.006)) # defualt to 300 meters
+        diff = float(self.request.GET.get('diff', 0.006)) # defualt to 300 meters
         # user_route_coo_from = get_cordinates_by_address(user_route_address[0][0])
         user_route_coo_to = get_cordinates_by_address(user_route_address[0][1])
         print(user_route_coo_to)
@@ -71,5 +71,4 @@ class SelectRouteTemplateView(TemplateView):
             'user_address': user_route_address,
             'driver_address': driver_route_address,
             }
-        print(args)
         return render(request, self.template_name, args)

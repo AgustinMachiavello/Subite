@@ -10,7 +10,7 @@ def unformat_coordinates(a):
             b.append([float(a[i]), float(a[i+1])])
     return b
 
-def match_routes(user_array, driver_array, max_difference):
+def match_routes(user_array, driver_array, max_difference=0.006, first_only=False):
     """Determine if two routes are available for a match"""
     matching_points = []
     if len(user_array) >= len(driver_array):
@@ -22,6 +22,8 @@ def match_routes(user_array, driver_array, max_difference):
         b = abs(abs(main_array[i][1]) - abs(second_array[i][1]))
         if (a + b) <= max_difference:
             matching_points.append([main_array[i][0], main_array[i][1]])
+    if len(matching_points) > 0 and first_only:
+        return [matching_points[0]]
     return matching_points
 
 user_array = unformat_coordinates(user)
