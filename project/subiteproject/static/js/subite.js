@@ -5,8 +5,6 @@ var csrftoken = getCookie('csrftoken');
 var mapbox_token = "pk.eyJ1IjoiYWd1c3Rpbm1hY2hpYXZlbGxvIiwiYSI6ImNrMjNuZGkwYzAwZHQzZHMxM2xxbHJwbmoifQ.WZfyYnPjnCQJ6K4jFtXTJw"
 
 
-
-
 function format_address_to_url(address){
   return address.split(' ').join('%20').split(',').join('%2C')
 }
@@ -69,24 +67,41 @@ function getUrlVars() {
   return vars;
 }
 
-// draw a map with a route and an icon
-function draw_route_map(center_coordinates, route_coordinates, icons_coordinates){
-mapboxgl.accessToken = mapbox_token;
-var map = new mapboxgl.Map({
-container: 'map',
-style: 'mapbox://styles/mapbox/streets-v11',
-center: center_coordinates,
-zoom: 15
-});
-map.on('load', function () {
-  debugger;
-  for (a in icons_coordinates){
+function add_route_layer(map, id, coordiantes, color){
+  map.addLayer({
+    "id": id.toString(),
+    "type": "line",
+    "source": {
+    "type": "geojson",
+    "data": {
+    "type": "Feature",
+    "properties": {},
+    "geometry": {
+    "type": "LineString",
+    "coordinates": coordiantes,
+  }
+  }
+  },
+  "layout": {
+    "visibility": 'visible',
+    "line-join": "round",
+    "line-cap": "round"
+  },
+  "paint": {
+
+    "line-color": `#${color}`,
+    "line-width": 8
+  }
+  });
+}
+
+function add_icon_layer(map, id, coordinates){
   map.loadImage('http://cdn.onlinewebfonts.com/svg/img_527461.png', 
   function(error, image){
     if (error) throw error;
-    map.addImage('point', image);
+    map.addImage(id.toString(), image);
     map.addLayer({
-      "id": "points",
+      "id": id.toString(),
       "type": "symbol",
       "source": {
       "type": "geojson",
@@ -96,43 +111,44 @@ map.on('load', function () {
       "type": "Feature",
       "geometry": {
       "type": "Point",
-      "coordinates": icons_coordinates[a],
-    }
-  }]
+      "coordinates": coordinates,
+      }
+      }]
+      }
+      },"layout": {
+        "visibility": 'visible',
+        "icon-image": id.toString(),
+        "icon-size": 0.03
+      }
+    });
+    })
 }
-},"layout": {
-  "icon-image": "point",
-  "icon-size": 0.03
-}
-});
-})
-}//end if 'if (icons_array != null)'
 
-  for (i in route_coordinates){
-    debugger;
-    map.addLayer({
-      "id": "route",
-      "type": "line",
-      "source": {
-      "type": "geojson",
-      "data": {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-      "type": "LineString",
-      "coordinates": route_coordinates[i],
-    }
-    }
-    },
-    "layout": {
-      "line-join": "round",
-      "line-cap": "round"
-    },
-    "paint": {
-      "line-color": "#888",
-      "line-width": 8
-    }
+
+// draw a map with a route and an icon
+function draw_route_map(center_coordinates, route_coordinates, icons_coordinates){
+mapboxgl.accessToken = mapbox_token;
+var map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/mapbox/streets-v11',
+center: center_coordinates,
+zoom: 15
 });
-}
+var x = 0
+var color = 888  // grey
+map.on('load', function () {
+  for (i in icons_coordinates){
+    console.log("x:", x)
+    add_icon_layer(map, x, icons_coordinates[i])
+    x += 1
+  }
+  for (i in route_coordinates){
+    console.log("Route:", route_coordinates[i])
+    add_route_layer(map, x, route_coordinates[i], color)
+    console.log("x:", x)
+    console.log("color:", color)
+    color += 100
+    x += 1
+  }
 });
 }

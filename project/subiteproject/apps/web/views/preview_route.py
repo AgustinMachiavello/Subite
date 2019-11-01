@@ -13,6 +13,10 @@ from subiteproject.apps.maps.views import openroute, openstreet, route_matching
 # Parse
 import urllib.parse
 
+# Route matching
+from subiteproject.apps.maps.views.route_matching import match_routes
+
+
 ALPHABET = 'abcdefghijklmnopqrstuvwxyz'
 
 
@@ -48,7 +52,10 @@ class PreviewRouteTemplateView(TemplateView):
                 profile,
             )
             route_coordinates.append(coo)
-        icons_coordinates = self.request.GET.get('icons', [])
+        if len(route_addresses) >= 2:
+            icons_coordinates = self.request.GET.get('icons', [route_coordinates[0][0]])
+        else:  
+            icons_coordinates = self.request.GET.get('icons', [])
         center_coordinates = self.request.GET.get('center', route_coordinates[0][0])
         args = {
             'STATIC_URL': get_static_url(),

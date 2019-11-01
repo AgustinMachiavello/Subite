@@ -12,11 +12,12 @@ class Route(models.Model):
     end_point_lon = models.FloatField(null=False, default=0)
 
     def __str__(self):
-        return "(lat,lon) ({0},{1}) to ({2}, {3})".format(
+        return "(lat,lon) ({0},{1}) to ({2}, {3}) ID:{4}".format(
             self.start_point_lat, 
             self.start_point_lon,
             self.end_point_lat,
             self.end_point_lon,
+            self.id,
             )
 
 class Point(models.Model):
