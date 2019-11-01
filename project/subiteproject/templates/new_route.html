@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v3.8.5">
     <title>Nueva ruta</title>
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/checkout/">
-
-    <!-- Bootstrap core CSS -->
-<link href="{{STATIC_URL}}css/bootstrap.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
 
     <style>
       .bd-placeholder-img {
@@ -32,6 +28,7 @@
     </style>
     <!-- Custom styles for this template -->
     <link href="{{STATIC_URL}}css/form-validation.css" rel="stylesheet">
+
   </head>
   <body class="bg-light">
     <div class="container">
@@ -44,7 +41,7 @@
   <div class="row">
     <div class="col-md-8 order-md-1">
       <h4 class="mb-3">Ingresa los datos</h4>
-      <form id="new-route-form" class="needs-validation" novalidate="">
+      <form id="new-route-submit-form" class="needs-validation" novalidate="">
         {%csrf_token%}
         <div class="row">
           <div class="col-md-6 mb-3">
@@ -63,7 +60,7 @@
           </div>
         </div>
         <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" onclick="visualize_route()" type="button">Visualizar ruta</button>
+        <button class="btn btn-primary btn-lg btn-block" id="preview-route-btn" onclick="preview_new_route()" type="button">Visualizar ruta</button>
         <button class="btn btn-primary btn-lg btn-block" type="submit">Siguiente</button>
       </form>
     </div>
@@ -85,4 +82,24 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <!-- Subite main js -->
 <script src="{{STATIC_URL}}js/subite.js"></script>
+<script>  
+  function preview_new_route(){
+    var from = format_address_to_url(document.getElementById("from").value)
+    var to = format_address_to_url(document.getElementById("to").value)
+    var domain = window.location.origin;
+    var open_url = `${domain}/preview_route?a=${from}&b=${to}`;
+    window.open(open_url, '_blank');
+  };
+  $('#new-route-submit-form').submit(function(e){
+  e.preventDefault();
+  var from = document.getElementById("from").value;
+  var to = document.getElementById("to").value;
+  var formated_from = from.split(' ').join('%20')
+  formated_from = formated_from.split(',').join('%2C')
+  var formated_to = to.split(' ').join('%20')
+  formated_to = formated_to.split(',').join('%2C')
+  var domain = window.location.origin;
+  window.location.href = `${domain}/select_route/?a=${formated_from}&b=${formated_to}&diff=0.006`;
+})
+</script>
 </body></html>
