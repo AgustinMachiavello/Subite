@@ -109,9 +109,6 @@ function add_icon_layer(map, id, coordinates){
       "type": "FeatureCollection",
       "features": [{
       "type": "Feature",
-      "properties":{
-        "description": "<strong>TEST</strong>",
-      },
       "geometry": {
       "type": "Point",
       "coordinates": coordinates,

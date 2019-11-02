@@ -53,7 +53,7 @@ class PreviewRouteTemplateView(TemplateView):
             )
             route_coordinates.append(coo)
         if len(route_addresses) >= 2:
-            icons_coordinates = match_routes(route_coordinates[0], route_coordinates[1], first_only=False)
+            icons_coordinates = match_routes(route_coordinates[0], route_coordinates[1], first_only=True)
         else:  
             icons_coordinates = self.request.GET.get('icons', [])
         center_coordinates = self.request.GET.get('center', route_coordinates[0][0])

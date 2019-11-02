@@ -79,18 +79,19 @@ sentences long so folks can pick up some informative tidbits. Then, link
           <h1>No hay rutas que coincidan :(</h1>
         </div>
         {% endif %}
-        {% for driver_address in driver_address %}
+        {% for addr in driver_address %}
         <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
             <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
             <div class="card-body">
-              <p class="card-text">Chofer: {{driver_address.0.user.first_name}} {{driver_address.0.user.last_name}}</p>
-              <p class="card-text">Email: {{driver_address.0.user.email}}</p>
-              <p class="card-text">Id: {{driver_address.0.id}}</p>
+              <p class="card-text">Chofer: {{addr.0.user.first_name}} {{addr.0.user.last_name}}</p>
+              <p class="card-text">Email: {{addr.0.user.email}}</p>
+              <p class="card-text">Id: {{addr.0.id}}</p>
+              <p class="card-text">Te subes en: {{addr.2}}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <button type="button" class="btn btn-sm btn-outline-secondary">¡Subirme!</button>
-                  <a target="_blank" href="/preview_route/?a={{user_address.0.0}}&b={{user_address.0.1}}&c={{driver_address.1.0}}&d={{driver_address.1.1}}" class="btn btn-sm btn-outline-secondary">Ver ruta</a>
+                  <a target="_blank" href="/preview_route/?a={{user_address.0.0}}&b={{user_address.0.1}}&c={{addr.1.0}}&d={{addr.1.1}}" class="btn btn-sm btn-outline-secondary">Ver ruta</a>
                 </div>
                 <small class="text-muted">9 mins</small>
               </div>

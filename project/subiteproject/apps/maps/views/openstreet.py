@@ -23,4 +23,5 @@ def get_address_by_coordinates(lat :float, lon :float):
     """
     url = 'https://nominatim.openstreetmap.org/reverse?lat={0}&lon={1}&format=json'.format(lat, lon)
     data = requests.post(url).json()
+    print(url)
     return data["display_name"]
