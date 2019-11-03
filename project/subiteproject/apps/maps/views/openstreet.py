@@ -1,3 +1,5 @@
+"""Métodos relacionados con las solicitudes dirigidas a la API de OpenStreet (Nominatim)"""
+
 # Requests
 import requests
 

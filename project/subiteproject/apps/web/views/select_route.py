@@ -30,6 +30,7 @@ class SelectRouteTemplateView(TemplateView):
 
 
     def get_route_addresses(self, utf8_format=False):
+        """Devuelve las direcciones y las decodifica si utf8_format es Verdadero"""
         route_addresses = []
         for i in range(0, len(ALPHABET), 2):
             start_arg = self.request.GET.get(ALPHABET[i], None)
@@ -50,6 +51,7 @@ class SelectRouteTemplateView(TemplateView):
         return route_addresses
 
     def get(self, request, *args, **kwargs):
+        """Obtiene los datos a partir de la API y meustra el trayecto en pantalla"""
         user_route_address = self.get_route_addresses()
         diff = float(self.request.GET.get('diff', 0.006)) # defualt to 300 meters
         user_route_coo_from = get_cordinates_by_address(user_route_address[0][0])
