@@ -40,6 +40,7 @@ class PreviewRouteTemplateView(TemplateView):
         return route_addresses
 
     def get(self, request, *args, **kwargs):
+        """Obitene los datos y muestra en pantalla la ruta establecida"""
         profile = self.request.GET.get('profile', 'driving-car')
         route_addresses = self.get_route_addresses()
         route_coordinates = []
@@ -55,14 +56,15 @@ class PreviewRouteTemplateView(TemplateView):
             )
             route_coordinates.append(coo)
         if len(route_addresses) >= 2:
+            # Si dos rutas son ingresadas, se encuentran los puntos coincidentes y se meustran en el mapa
             icons_coordinates = match_routes(route_coordinates[0], route_coordinates[1], first_only=True)
         else:  
             icons_coordinates = self.request.GET.get('icons', [])
         center_coordinates = self.request.GET.get('center', route_coordinates[0][0])
         args = {
             'STATIC_URL': get_static_url(),
-            'center_coordinates': center_coordinates,
-            'route_coordinates': route_coordinates,
-            'icons_coordinates': icons_coordinates,
+            'center_coordinates': center_coordinates, # coordenadas del foco del mapa
+            'route_coordinates': route_coordinates, # cordenadas de las rutas a visualizar
+            'icons_coordinates': icons_coordinates, # coordenadas de los íconos a dibujar en el mapa
             }
         return render(request, self.template_name, args)

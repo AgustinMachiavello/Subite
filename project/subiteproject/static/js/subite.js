@@ -1,14 +1,16 @@
 // Subite main javascript
 
 const opts = {crossDomain: true};
-var csrftoken = getCookie('csrftoken');
+var csrftoken = getCookie('csrftoken'); // token de sesión del usuario
+// Token de la API de mapbox
 var mapbox_token = "pk.eyJ1IjoiYWd1c3Rpbm1hY2hpYXZlbGxvIiwiYSI6ImNrMjNuZGkwYzAwZHQzZHMxM2xxbHJwbmoifQ.WZfyYnPjnCQJ6K4jFtXTJw"
 
-
+// lleva un string al formato UTF8
 function format_address_to_url(address){
   return address.split(' ').join('%20').split(',').join('%2C')
 }
 
+// lleva un string en formato UTF8 a normal
 function unformat_url_to_address(address){
   return address.split('%20').join(' ').split('%2C').join(',')
 }
@@ -30,7 +32,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
-// login request
+// Función para llamar a la url de inicio de sesión
 function login(email, password) {
   submitOK = "true";
   var at = email.indexOf("@");
@@ -67,6 +69,7 @@ function getUrlVars() {
   return vars;
 }
 
+// Dibuja la ruta sobre el mapa a partir de una lista de coordenadas
 function add_route_layer(map, id, coordiantes, color){
   map.addLayer({
     "id": id.toString(),
@@ -95,6 +98,7 @@ function add_route_layer(map, id, coordiantes, color){
   });
 }
 
+// Dibuja un ícono en el mapa a traveś de sus coordenadas
 function add_icon_layer(map, id, coordinates){
   map.loadImage('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Target_Corporation_logo_%28vector%29.svg/300px-Target_Corporation_logo_%28vector%29.svg.png', 
   function(error, image){
@@ -125,8 +129,9 @@ function add_icon_layer(map, id, coordinates){
 }
 
 
-// draw a map with a route and an icon
+// Dibuja un mapa en pantalla a partir de sus coordenadas
 function draw_route_map(center_coordinates, route_coordinates, icons_coordinates){
+
 mapboxgl.accessToken = mapbox_token;
 var map = new mapboxgl.Map({
 container: 'map',

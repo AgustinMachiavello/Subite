@@ -3,6 +3,7 @@ from .models.users import *
 from .models.vehiculo import *
 
 # Register your models here.
+"""Aquí se registrar las tablas para que se visualizacen en el panel de control (/admin)"""
 admin.site.register(Usuario)
 admin.site.register(Conductor)
 admin.site.register(Historial_Login)
