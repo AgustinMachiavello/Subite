@@ -21,9 +21,11 @@ ALPHABET = 'abcdefghijklmnopqrstuvwxyz'
 
 
 class PreviewRouteTemplateView(TemplateView):
+    """Pantalla web para visulizar rutas y puntos de intersección"""
     template_name = 'preview_route.html'
 
     def get_route_addresses(self):
+        """Devuelve las direcciones ingresadas como parámtetros en la url"""
         route_addresses = []
         for i in range(0, len(ALPHABET), 2):
             start_arg = self.request.GET.get(ALPHABET[i], None)
@@ -63,5 +65,4 @@ class PreviewRouteTemplateView(TemplateView):
             'route_coordinates': route_coordinates,
             'icons_coordinates': icons_coordinates,
             }
-        print("ICONS:", icons_coordinates)
         return render(request, self.template_name, args)

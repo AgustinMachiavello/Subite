@@ -13,9 +13,13 @@ from django.utils import timezone
 from django.core.validators import RegexValidator
 
 
-class User(AbstractUser):
-    user_id = models.AutoField(primary_key=True)
+class Usuario(AbstractUser):
+    UsuId = models.AutoField(primary_key=True)
     email = models.EmailField('Email', null=False, blank=False, unique=True)
+    Tel = models.CharField(max_length=20)
+    UsuFechNac = models.DateField(default=timezone.now)
+    UsuUltimoLog = models.DateTimeField(default=timezone.now)
+    UsuVerificado = models.BooleanField(default=False)
     user_created_at = models.DateTimeField(default=timezone.now)
     user_updated_at = models.DateTimeField(default=timezone.now)
 
@@ -26,7 +30,25 @@ class User(AbstractUser):
         return self.email
 
     def save(self, *args, **kwargs):
-        if not self.user_id:
+        if not self.UsuId:
+            self.UsuFechNac = timezone.now().date()
+            self.UsuUltimoLog = timezone.now()
             self.user_created_at = timezone.now()
         self.user_updated_at = timezone.now()
-        return super(User, self).save(*args, **kwargs)
+        return super(Usuario, self).save(*args, **kwargs)
+
+
+class Conductor(models.Model):
+    CondId = models.ForeignKey('accounts.Usuario', on_delete=models.CASCADE, related_name='conductor')
+    CondUrlFotLic = models.CharField(max_length=200)
+
+
+class Historial_Login(models.Model):
+    UsuId = models.ForeignKey('accounts.Usuario', on_delete=models.CASCADE, related_name='historial_login')
+    LogFecha = models.DateField()
+
+
+class Amigo(models.Model):
+    UsuId = models.ForeignKey('accounts.Usuario', on_delete=models.CASCADE, related_name='amigo_usu')
+    UsuIdAmigo = models.ForeignKey('accounts.Usuario', on_delete=models.CASCADE, related_name='usu_amigo')
+    FecIniAmistad = models.DateField()

@@ -11,7 +11,7 @@ from ..utils import get_static_url
 import requests
 
 # Route model
-from subiteproject.apps.maps.models.route import Route
+from subiteproject.apps.accounts.models.vehiculo import Ruta
 
 # Urllib
 import urllib.parse
@@ -60,23 +60,22 @@ class SelectRouteTemplateView(TemplateView):
             user_route_coo_to[0],
             user_route_coo_to[1],
         )
-        matching_routes = Route.objects.filter(
-            end_point_lat__lte=(float(user_route_coo_to[0])+diff),
-            end_point_lat__gte=(float(user_route_coo_to[0])-diff),
-            end_point_lon__lte=(float(user_route_coo_to[1])+diff),
-            end_point_lon__gte=(float(user_route_coo_to[1])-diff),
+        matching_routes = Ruta.objects.filter(
+            DestinoLat__lte=(float(user_route_coo_to[0])+diff),
+            DestinoLat__gte=(float(user_route_coo_to[0])-diff),
+            DestinoLon__lte=(float(user_route_coo_to[1])+diff),
+            DestinoLon__gte=(float(user_route_coo_to[1])-diff),
         )
         user_route_address = self.get_route_addresses(utf8_format=True)
         driver_route_address = []
         for route in matching_routes:
-            start_address = get_address_by_coordinates(route.start_point_lat, route.start_point_lon)
-            end_address = get_address_by_coordinates(route.end_point_lat, route.end_point_lon)
+            start_address = get_address_by_coordinates(route.OrigenLat, route.OrigenLon)
+            end_address = get_address_by_coordinates(route.DestinoLat, route.DestinoLon)
             matching_point = match_routes(user_route, get_route_coordinates(
-                route.start_point_lat, 
-                route.start_point_lon, 
-                route.end_point_lat, 
-                route.end_point_lon), first_only=True)
-            print(matching_point)
+                route.OrigenLat, 
+                route.OrigenLon, 
+                route.DestinoLat, 
+                route.DestinoLon), first_only=True)
             matching_address = get_address_by_coordinates(matching_point[0][1], matching_point[0][0])
             driver_route_address.append([
                 route, 

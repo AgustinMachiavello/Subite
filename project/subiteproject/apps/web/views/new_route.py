@@ -9,6 +9,7 @@ from ..utils import get_static_url
 
 
 class NewRouteTemplateView(TemplateView):
+    """Pantalla de ingreso para nuevas rutas de usuarios pasajeros"""
     template_name = 'new_route.html'
 
     def get(self, request, *args, **kwargs):

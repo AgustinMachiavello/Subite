@@ -9,6 +9,7 @@ from ..utils import get_static_url
 
 
 class IndexTemplateView(TemplateView):
+    """Pantalla web principal""" 
     template_name = 'index.html'
 
     def get(self, request, *args, **kwargs):

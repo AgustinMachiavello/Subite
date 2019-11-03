@@ -9,6 +9,7 @@ from ..utils import get_static_url
 
 
 class SignInTemplateView(TemplateView):
+	"""Pantalla web para el inicio de sesión"""
 	template_name = 'signin.html'
 
 	def get(self, request, *args, **kwargs):
