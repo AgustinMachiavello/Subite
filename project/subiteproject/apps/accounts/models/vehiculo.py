@@ -22,12 +22,12 @@ class Tipo(models.Model):
     TipoNom = models.CharField(max_length=40, unique=True)
     CapMax = models.PositiveSmallIntegerField() # MAX AND MIN
 
-    def save(self):
-        if self.TipoCod in ['Sedán', 'Cupé', 'Hatchback', 'Descapotable', 'Roadster', 'Todoterreno',
+    def save(self, *args, **kwargs):
+        if self.TipoNom in ['Sedán', 'Cupé', 'Hatchback', 'Descapotable', 'Roadster', 'Todoterreno',
         'Familiar', 'SUV', 'Crossover', 'Pick-Up', 'Deportivo']:
-            return super(Puntaje, self).save(*args, **kwargs)
+            return super(Tipo, self).save(*args, **kwargs)
         else:
-            raise Exception
+            raise Exception('Tipo no válido')
             return None
         
 class TieneVehiculo(models.Model):
@@ -76,11 +76,11 @@ class Puntaje(models.Model):
     Puntaje = models.PositiveIntegerField()
     Descr = models.CharField(max_length=200)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         if self.Puntaje >=0 and self.Puntaje <= 5:
             return super(Puntaje, self).save(*args, **kwargs)
         else:
-            raise Exception
+            raise Exception('Puntaje no válido')
             return None 
 
 

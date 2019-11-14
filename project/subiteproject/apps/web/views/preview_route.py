@@ -56,7 +56,7 @@ class PreviewRouteTemplateView(TemplateView):
             )
             route_coordinates.append(coo)
         if len(route_addresses) >= 2:
-            # Si dos rutas son ingresadas, se encuentran los puntos coincidentes y se meustran en el mapa
+            # Si dos rutas son ingresadas, se encuentran los puntos coincidentes y se muestran en el mapa
             icons_coordinates = match_routes(route_coordinates[0], route_coordinates[1], first_only=True)
         else:  
             icons_coordinates = self.request.GET.get('icons', [])

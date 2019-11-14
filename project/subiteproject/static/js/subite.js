@@ -32,6 +32,48 @@ function getCookie(name) {
     return cookieValue;
 }
 
+// Función para llamar a la url de registro de usuario
+function subirme(id_ruta) {
+  var domain = window.location.origin;
+  var post_url = `${domain}/api/viajes/`;
+  var post_data = {
+    'ViajeRuta': id_ruta,
+    'csrfmiddlewaretoken': csrftoken}
+  var post_successful_url = `${domain}/viaje_success.html`;
+  $.post(
+    post_url,
+    post_data,
+    function(data) {
+      window.location.replace(post_successful_url);
+    }).fail(function(data) {
+      alert("Algo salió mal :(");
+    });
+}
+
+// Función para llamar a la url de registro de usuario
+function signup(first_name, last_name, email, tel, password, birth) {
+  var domain = window.location.origin;
+  var post_url = `${domain}/api/test/`;
+  var post_data = {
+    'username': email,
+    'first_name': first_name, 
+    'last_name': last_name,
+    'email': email,
+    'Tel': tel,
+    'password': password,
+    'UsuFechNac': birth,
+    'csrfmiddlewaretoken': csrftoken}
+  var post_successful_url = `${domain}/index.html`;
+  $.post(
+    post_url,
+    post_data,
+    function(data) {
+      window.location.replace(post_successful_url);
+    }).fail(function(data) {
+      alert("Not valid credentials");
+    });
+}
+
 // Función para llamar a la url de inicio de sesión
 function login(email, password) {
   submitOK = "true";

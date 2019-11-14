@@ -51,7 +51,7 @@ class SelectRouteTemplateView(TemplateView):
         return route_addresses
 
     def get(self, request, *args, **kwargs):
-        """Obtiene los datos a partir de la API y meustra el trayecto en pantalla"""
+        """Obtiene los datos a partir de la API y muestra el trayecto en pantalla"""
         user_route_address = self.get_route_addresses()
         diff = float(self.request.GET.get('diff', 0.006)) # defualt to 300 meters
         user_route_coo_from = get_cordinates_by_address(user_route_address[0][0])
@@ -62,6 +62,7 @@ class SelectRouteTemplateView(TemplateView):
             user_route_coo_to[0],
             user_route_coo_to[1],
         )
+        """Rutas de choferes cuyo destino final esté dentro de los 300m"""
         matching_routes = Ruta.objects.filter(
             DestinoLat__lte=(float(user_route_coo_to[0])+diff),
             DestinoLat__gte=(float(user_route_coo_to[0])-diff),

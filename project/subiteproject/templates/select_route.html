@@ -82,18 +82,19 @@ sentences long so folks can pick up some informative tidbits. Then, link
         {% for addr in driver_address %}
         <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
             <div class="card-body">
               <p class="card-text">Chofer: {{addr.0.UsuId.first_name}} {{addr.0.UsuId.last_name}}</p>
               <p class="card-text">Email: {{addr.0.UsuId.email}}</p>
-              <p class="card-text">Id: {{addr.0.RutaId}}</p>
+              <p class="card-text">Tel: {{addr.0.UsuId.Tel}}</p>
               <p class="card-text">Te subes en: {{addr.2}}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">¡Subirme!</button>
+                  <button type="button" onclick="subirme({{addr.0.RutaId}})" class="btn btn-sm btn-outline-secondary">¡Subirme!</button>
                   <a target="_blank" href="/preview_route/?a={{user_address.0.0}}&b={{user_address.0.1}}&c={{addr.1.0}}&d={{addr.1.1}}" class="btn btn-sm btn-outline-secondary">Ver ruta</a>
                 </div>
-                <small class="text-muted">9 mins</small>
+                <a target="_blank" href="https://api.whatsapp.com/send?phone={{addr.0.UsuId.Tel}}&text=Hola%21%20Me%20gustar%C3%ADa%20coordinar%20mi%20viaje%20contigo...">
+                  <img border="0" alt="msj" src="https://www.shareicon.net/data/256x256/2017/06/21/887423_text_512x512.png" width="30" height="30">
+                  </a>
               </div>
             </div>
           </div>
